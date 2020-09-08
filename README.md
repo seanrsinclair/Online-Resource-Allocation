@@ -24,10 +24,9 @@ The following files in `functions/` implement the different algorithms for a sin
 The following files in `functions_multi_resource/` implement the different algorithms for a multiple resources:
 * `food_bank_functions.py`: implements the different heuristic algorithms as well as the offline optimal solution.  Also provides implementation calculating the various fairness metrics.
 
-
-These files found in `simulations/` run experiments with different type distributions. To run the experiments used in the paper, you should run `waterfilling_levels.ipynb`, where all information is subsequently printed throughout the jupyter notebook.  Each file has parameters at the top which can be changed in order to replicate the parameters considered for each experiment in the paper.
+The files found in `simulations/` run experiments with different type distributions. To run the experiments used in the paper, you should run `waterfilling_levels.ipynb`, where all information is subsequently printed throughout the jupyter notebook.  Each file has parameters at the top which can be changed in order to replicate the parameters considered for each experiment in the paper.
 
 ### Bibliography
 [1]: Sean R. Sinclair, Gauri Jain, Siddhartha Banerjee, Christina Yu.  *Sequential Fair Allocation of Limited Resources.*
 
-[2]. Robert Lien, Seyed Iravani, Karen Smilowitz. *Sequential Resource Allocation for Nonprofit Operations.*
+[2]. Robert Lien, Seyed Iravani, Karen Smilowitz. [https://pubsonline.informs.org/doi/abs/10.1287/opre.2013.1244](*Sequential Resource Allocation for Nonprofit Operations.*)
