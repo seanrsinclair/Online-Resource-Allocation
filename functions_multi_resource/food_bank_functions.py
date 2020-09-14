@@ -259,6 +259,14 @@ def envy_utility(X, W):
         envy[i] = max_env
     return envy
 
+def utility(allocation, observed_weights):
+    n = allocation.shape[0]
+    utility_vec = np.zeros(n)
+    for i in range(n):
+        utility_vec[i] = np.dot(allocation[i,:], observed_weights[i,:])
+    return utility_vec
+
+
 # Calculates envy to proportional for each agent
 def proportionality_utility(X, W, size, budget):
     n = X.shape[0]

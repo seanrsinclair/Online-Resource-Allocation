@@ -232,7 +232,6 @@ def waterfilling_hope_waste_iid(weights_orig, supports_orig, demands_realized, b
             index = np.argmin(np.abs(support - obs_demand))
             weight[index] += 1
 
-
             waterfilling_alloc = waterfilling_sorted_weights(support, weight, budget_remaining)
             allocations[i] = min(max(waterfilling_alloc), demands_realized[i], budget_remaining)
             weight[index] -= 1
