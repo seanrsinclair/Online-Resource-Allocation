@@ -241,6 +241,33 @@ def waterfilling_hope_waste_iid(weights_orig, supports_orig, demands_realized, b
         budget_remaining -= allocations[i]
     return allocations
 
+# Implements Hope Online algorithm with i.i.d. dem,ands
+def waterfilling_hope_waste_iid_delta(weights_orig, supports_orig, demands_realized, budget, delta):
+    n = np.size(demands_realized)
+    allocations = np.zeros(n)
+    budget_remaining = budget
+
+    support = np.copy(supports_orig)
+    weight = np.copy(weights_orig)*n
+
+    for i in range(n):
+        # need to collect distribution on weights
+        # and add in one for observed demand
+        if i<n-1:
+            obs_demand = demands_realized[i]
+            weight -= weights_orig
+            index = np.argmin(np.abs(support - obs_demand))
+            weight[index] += 1
+
+            waterfilling_alloc = waterfilling_sorted_weights(support, weight, budget_remaining)
+            allocations[i] = min(max(waterfilling_alloc)-delta, demands_realized[i], budget_remaining)
+            weight[index] -= 1
+        else:
+            allocations[i] = min(budget_remaining,demands_realized[i], max(allocations))
+
+        budget_remaining -= allocations[i]
+    return allocations
+
 def waterfilling_hope_waste(weights_orig, supports_orig, demands_realized, budget):
     n = np.size(demands_realized)
     allocations = np.zeros(n)
@@ -318,6 +345,33 @@ def waterfilling_hope_full_waste_iid(weights_orig, supports_orig, demands_realiz
         budget_remaining -= allocations[i]
 
     return allocations
+
+def waterfilling_hope_full_waste_iid_delta(weights_orig, supports_orig, demands_realized, budget, delta):
+    n = np.size(demands_realized)
+    allocations = np.zeros(n)
+    budget_remaining = budget
+
+    support = np.copy(supports_orig)
+    weight = np.copy(weights_orig)*n
+
+    for i in range(n):
+        # need to collect distribution on weights
+        # and add in one for observed demand
+
+        obs_demand = demands_realized[i]
+        weight -= weights_orig
+        index = np.argmin(np.abs(support - obs_demand))
+        weight[index] += 1
+
+
+        waterfilling_alloc = waterfilling_sorted_weights(support, weight, budget)
+        allocations[i] = min(waterfilling_alloc[index]-delta,demands_realized[i], budget_remaining)
+
+        budget_remaining -= allocations[i]
+
+    return allocations
+
+
 
 # Greedy allocation strategy
 def greedy(demands_realized,budget):
