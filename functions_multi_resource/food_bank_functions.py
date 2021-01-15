@@ -185,7 +185,6 @@ def hope_online(weight_matrix, weight_distribution, observed_types, n, k, budget
                     size_factors[observed_types[m]] += size[m]
                 elif m > i:
                     size_factors += size[m] * weight_distribution
-
             obs_type = observed_types[i]
 
             alloc, _ = solve(weight_matrix, num_types, k, current_budget, size_factors)
