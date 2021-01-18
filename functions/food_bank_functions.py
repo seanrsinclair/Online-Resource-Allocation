@@ -346,6 +346,50 @@ def waterfilling_hope_full_waste_iid(weights_orig, supports_orig, demands_realiz
 
     return allocations
 
+
+# def waterfilling_guardrail(weights_orig, supports_orig, demands_realized, budget, delta):
+#     n = np.size(demands_realized)
+#     allocations = np.zeros(n)
+#     budget_remaining = budget
+
+#     support_full = np.copy(supports_orig)
+#     weight_full = np.copy(weights_orig)*n
+
+#     support_online = np.copy(supports_orig)
+#     weight_online = np.copy(weights_orig)*n
+    
+#     for i in range(n):
+#         # need to collect distribution on weights
+#         # and add in one for observed demand
+        
+#         # Calculate hope_full
+#         obs_demand = demands_realized[i]
+#         weight_full -= weights_orig
+#         index_full = np.argmin(np.abs(support - obs_demand))
+#         weight[index_full] += 1
+#         waterfilling_alloc = waterfilling_sorted_weights(support, weight, budget)
+#         # Calculate budget process?
+        
+        
+#         # Calculate hope_Online
+        
+        
+         
+        
+        
+#         weight_online -= weights_orig
+#         index_online = np.argmin(np.abs(support - obs_demand))
+#         weight[index_online] += 1
+
+
+#         allocations[i] = min(waterfilling_alloc[index],demands_realized[i], budget_remaining)
+
+#         budget_remaining -= allocations[i]
+
+#     return allocations
+
+
+
 def waterfilling_hope_full_waste_iid_delta(weights_orig, supports_orig, demands_realized, budget, delta):
     n = np.size(demands_realized)
     allocations = np.zeros(n)
