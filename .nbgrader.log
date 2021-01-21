@@ -177,3 +177,32 @@
     to login with a token:
         http://localhost:8888/?token=fe28e1da35b66eeca4d59b4dbf96745dc78d23d90684b310&token=fe28e1da35b66eeca4d59b4dbf96745dc78d23d90684b310
 [NotebookApp | INFO] Accepting one-time-token-authenticated connection from 127.0.0.1
+[NotebookApp | WARNING] No nbgrader_config.py file found (rerun with --debug to see where nbgrader is looking)
+[NotebookApp | INFO] Loading the validate_assignment nbgrader serverextension
+[NotebookApp | INFO] Serving notebooks from local directory: /home/sean/Programming/Online-Resource-Allocation
+[NotebookApp | INFO] 0 active kernels
+[NotebookApp | INFO] The Jupyter Notebook is running at:
+[NotebookApp | INFO] http://localhost:8888/?token=3f969382c4e5133ff2a811a294490c15bbf39aaeb1e51b00
+[NotebookApp | INFO] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[NotebookApp | CRITICAL] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=3f969382c4e5133ff2a811a294490c15bbf39aaeb1e51b00&token=3f969382c4e5133ff2a811a294490c15bbf39aaeb1e51b00
+[NotebookApp | INFO] Accepting one-time-token-authenticated connection from 127.0.0.1
+[NotebookApp | INFO] Kernel started: 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Starting buffering for 7befa4c3-3145-4d26-9490-2aa6d8ce63f7:3577bfc6e035489e8edf0d795ce38f68
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Restoring connection for 7befa4c3-3145-4d26-9490-2aa6d8ce63f7:3577bfc6e035489e8edf0d795ce38f68
+[NotebookApp | INFO] Starting buffering for 7befa4c3-3145-4d26-9490-2aa6d8ce63f7:3577bfc6e035489e8edf0d795ce38f68
+[NotebookApp | INFO] Kernel restarted: 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Adapting to protocol v5.1 for kernel 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Restoring connection for 7befa4c3-3145-4d26-9490-2aa6d8ce63f7:3577bfc6e035489e8edf0d795ce38f68
+[NotebookApp | INFO] Replaying 3 buffered messages
+[NotebookApp | INFO] Kernel interrupted: 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
+[NotebookApp | INFO] Saving file at /single type/test simulations.ipynb
+[NotebookApp | INFO] interrupted
+[NotebookApp | CRITICAL] Shutdown confirmed
+[NotebookApp | INFO] Shutting down 1 kernel
+[NotebookApp | INFO] Kernel shutdown: 7befa4c3-3145-4d26-9490-2aa6d8ce63f7
