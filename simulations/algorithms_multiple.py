@@ -28,7 +28,17 @@ def generate_cvxpy_solve(num_types, num_resources):
         weights.value = true_weights
         budget.value = true_budget
         
-        prob.solve()
+        try:
+            prob.solve()
+        except:
+            print('Sizes!')
+            print(true_sizes)
+            print('Weights!')
+            print(true_weights)
+            print('Budget!')
+            print(true_budget)
+            print('Solve failed retyring verbose')
+            prob.solve(verbose=True)
         
         return prob.value, np.around(x.value, 5)
     
@@ -64,7 +74,7 @@ def fixed_threshold(budget, size, mean, stdev, weights, solver):
     
     
     future_size = size[0] + np.sum(mean[1:], axis=0)
-    conf = np.max(np.sqrt(np.max(stdev, axis=0)*np.mean(mean, axis=0)*num_locations) / future_size)
+    conf = np.max(np.sqrt(2*np.max(stdev, axis=0)*np.mean(mean, axis=0)*num_locations) / future_size)
     lower_exp_size = future_size*(1 + conf)
     _, lower_thresh = solver(lower_exp_size, weights, budget) 
     
