@@ -2,11 +2,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 EPS = 10e-3
+DEBUG = False
 
 def prob_confidence_interval(avg_mass, n):
-    # return mean + np.log(n) + np.sqrt(mean * np.log(n))
-    return avg_mass + (1/(2*avg_mass))*(np.log(n) + np.sqrt(np.log(n)**2 + 8 * avg_mass + np.log(n)))
+    """
+        Helper code for calculating a high probability upper estimate on
+        \sum_b \Ind{E} where avg_mass = \sum_b \Pr{E} and n is 1 / delta, high probability value
 
+        Mostly done to ease tuning confidence interval choices jointly
+
+    """
+    # return mean + np.log(n) + np.sqrt(mean * np.log(n))
+    if DEBUG: print(f"Avg Mass: {avg_mass}")
+    if DEBUG: print(f"Confidence Interval (1) : {avg_mass + (1/(2*avg_mass))*(np.log(n) + np.sqrt(np.log(n)**2 + 8 * avg_mass + np.log(n)))}, Confidence Interval (2): {avg_mass + np.sqrt(n*np.log(n))}, Confidence Interval (3): {avg_mass + np.sqrt(avg_mass * np.log(n))}")
+    min_value = np.min([avg_mass + np.sqrt(n*np.log(n)), avg_mass + np.sqrt(3*avg_mass * np.log(n)), avg_mass + (1/(2*avg_mass))*(np.log(n) + np.sqrt(np.log(n)**2 + 8 * avg_mass + np.log(n)))])
+    if DEBUG: print(f"Minimum Value: {min_value}")
+    return min_value
 def export_legend(legend, filename="LABEL_ONLY.pdf"):
     fig  = legend.figure
     fig.canvas.draw()
@@ -14,6 +25,9 @@ def export_legend(legend, filename="LABEL_ONLY.pdf"):
     fig.savefig(filename, dpi="figure", bbox_inches=bbox)
 
 def n_upper(demand_dist, n, num_iters = 1000):
+    """
+        Returns high probability estimate for N_{\geq t} for each t
+    """
     future_demand_samples = [[np.sum(demand_dist(n)[t:]) for t in range(n)] for _ in range(1000)] # gets samples of the total demand N_{> t}
     avg_demand = np.mean(future_demand_samples, axis=0)
     n_upper = avg_demand + np.asarray([np.sqrt(2*np.std(future_demand_samples, axis=0)[t]*(n-t)) for t in range(n)])
@@ -54,20 +68,22 @@ def x_lower_line_search(perish_dist, demand_dist, n, max_budget, n_upper):
     return x_lower
 
 
-def estimate_delta(x, perish_dist, demand_dist, n, max_budget, num_iters = 1000):
+def estimate_delta(x, perish_dist, demand_dist, n, max_budget, num_iters = 100):
     """
         Estimates Delta(X) = |{b : T_b < \tau_b(X)}| through Monte-Carlo simulations
         NOTE: This is simplifying \tau_b to not take into account the demands N_t
         ADJUST?
     """
+
     total_mass = 0
     for _ in range(num_iters):
         # sizes = demand_dist(n) # samples demands N_t
         resource_perish = np.asarray([perish_dist(b,n) for b in range(max_budget)]) # samples perishing times T_b
-        total_mass += np.sum([1 if resource_perish[b] < np.ceil(b/x) else 0 for b in range(max_budget)]) # checks whether
-            # resources perish before tau_b
+        total_mass += np.sum([1 if resource_perish[b] < np.minimum(n, np.ceil((b+1)/x)) else 0 for b in range(max_budget)]) # checks whether
+            # resources perish before tau_b (note that sigma(b) = b+1 due to python indexing starting from zero)
     avg_mass = (total_mass / num_iters) # takes expectation over the number of iterations
     return prob_confidence_interval(avg_mass, n) # returns an estimate for \overline{\Delta}
+
 
 def perish_future(t, current_index, resource_dict, x_lower, perish_dist, demand_dist, n, max_budget, num_iters = 100):
     """
@@ -76,15 +92,31 @@ def perish_future(t, current_index, resource_dict, x_lower, perish_dist, demand_
     """
 
     total_mass = 0
+
+    available_resources = []
+    for b in range(max_budget):
+        if (resource_dict[str(b)][1] >= t and resource_dict[str(b)][0] < 1):
+            available_resources.append(b)
+    if DEBUG: print(f"Available Resources: {available_resources}")
+        # based on the current resources B_t^{alg} returns the index of resources that (i) have not perished and (ii) have not been allocated fully yet
+        # (some weird rounding here but ignoring that)
+
     for _ in range(num_iters):
         # sizes = demand_dist(n) # samples demands N_t
 
         resource_perish = np.asarray([perish_dist(b,n) for b in range(max_budget)]) # samples a vector of perishing times
 
-        for b in np.arange(current_index, max_budget): # loops over the remaining resources in B_t^{alg}
-            if (resource_perish[b] < np.minimum(n, t + np.ceil((b - current_index)/x_lower))) and (resource_perish[b] >= t): # checks whether resource will perish before earliest it gets allocated
-                                            # note that the right hand side taub is also done in a state dependent way, since x_lower will be allocated starting at the current_index
-                total_mass += 1 # adds one to the total mass
+        total_mass += np.sum([1 if (resource_perish[b] < np.minimum(n, t + np.ceil((1+available_resources.index(b))/x_lower))) and (resource_perish[b] >= t) else 0 for b in available_resources])
+            # loop over remaining resources and checks whether resource will perish before earliest it gets allocated
+            # note that right hand side taub is done in state dependent way, since x_lower will be allocated starting at the current_index
+            # (+1) is done again due to indexing issues in python
+
+        # NOTE: OLD VERSION OF CALCULATION
+        # for b in available_resources: # loops over the remaining resources in B_t^{alg}
+        #     if (resource_perish[b] < np.minimum(n, t + np.ceil((b - current_index)/x_lower))) and (resource_perish[b] >= t): # checks whether resource will perish before earliest it gets allocated
+        #                                     # note that the right hand side taub is also done in a state dependent way, since x_lower will be allocated starting at the current_index
+        #         total_mass += 1 # adds one to the total mass
+
     avg_mass = (total_mass / num_iters)
     if avg_mass == 0:
         return 0
