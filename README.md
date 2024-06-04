@@ -1,9 +1,9 @@
 # Online Fair Allocation
 
 This code implements and evaluates algorithms for the following papers:
-- ``Sequential Fair Allocation of Limited Resources under Stochastic Demands'' by Sean R. Sinclair, Gauri Jain, Siddhartha Banerjee, Christina Lee Yu
-- ``Sequential Fair Allocation: Achieving the Optimal Envy-Efficiency Tradeoff Curve'' by Sean R. Sinclair, Gauri Jain, Siddhartha Banerjee, Christina Lee Yu
-- ``Online Fair Allocation of Perishable Resources'' by Siddhartha Banerjee, Chamsi Hssaine, Sean R. Sinclair
+- [`Sequential Fair Allocation of Limited Resources under Stochastic Demands`](https://arxiv.org/abs/2011.14382) by Sean R. Sinclair, Gauri Jain, Siddhartha Banerjee, Christina Lee Yu
+- [`Sequential Fair Allocation: Achieving the Optimal Envy-Efficiency Tradeoff Curve`](https://arxiv.org/abs/2105.05308) by Sean R. Sinclair, Gauri Jain, Siddhartha Banerjee, Christina Lee Yu
+- [`Online Fair Allocation of Perishable Resources`](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4739232) by Siddhartha Banerjee, Chamsi Hssaine, Sean R. Sinclair
 
 
 
