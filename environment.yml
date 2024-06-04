@@ -1,0 +1,20 @@
+name: resource_allocation
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - cvxpy
+  - cvxpy-base
+  - ipykernel
+  - jupyter
+  - kiwisolver  
+  - matplotlib
+  - numpy
+  - openpyxl
+  - pandas
+  - python>=3.8
+  - pyyaml
+  - seaborn
+  - yaml
+  - scipy
+  - tqdm
